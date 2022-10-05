@@ -104,7 +104,6 @@ def otsu(image):
 if __name__ == '__main__':
     filepath = '../images/gingerbreads.jpg'
     gingerbread = io.imread(filepath)
-    hist = histogram(gingerbread)
     otsu_th = otsu(gingerbread)
     thresholded_im = threshold(gingerbread, otsu_th)
     gingerbread = rgb2gray(gingerbread)
