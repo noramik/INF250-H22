@@ -30,6 +30,6 @@ ax[2].set_title('Gaussian filter')
 med_im = median(image)
 ax[4].imshow(med_im, cmap='gray')
 ax[4].set_title('Median filter')
-
-
+for i in range(6):
+    ax[i].axis('off')
 plt.show()
