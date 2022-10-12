@@ -1,6 +1,8 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from skimage import io
 from skimage.filters import sobel, prewitt
+from skimage.feature import canny
 
 def edge_operator(image, operator):
     """Returns the reusult from one of the edge operators, prewitt, sobel,
@@ -22,11 +24,22 @@ def edge_operator(image, operator):
     filtered : np.ndarray(np.uint)
     result image from the edge operator
     """
+
+    image = image.mean(axis=2)
+    filter_dict = {1: sobel, 2: prewitt, 3: canny}
+    filtered = filter_dict[operator](image)
     
     return filtered
 
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     filepath = '../images/AthenIR.png'
     ir_im = io.imread(filepath)
+    filtered = edge_operator(ir_im, 3)
+    fig, axes = plt.subplots(ncols=2)
+    ax = axes.ravel()
+
+    ax[0].imshow(ir_im, cmap=plt.cm.gray)
+    ax[1].imshow(filtered, cmap=plt.cm.gray)
+    plt.show()
