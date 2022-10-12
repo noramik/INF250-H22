@@ -1,6 +1,13 @@
 import numpy as np
 
 def hist_equalisation(image):
+    """
+    Takes in an image, computes the original histogram for the image, then a cumulative histogram
+    for the image, then performs a histogram equalisation on the image.
+
+    :param image: original image
+    :return: image_he: histogram equalised image
+    """
     # Histogram equalisation
 
     histogram = np.zeros(256)
@@ -24,3 +31,4 @@ def hist_equalisation(image):
             a = int(image[i, j])
             b = cumhist[a] * (K - 1) / M * N
             image_he[i, j] = b
+    return image_he
