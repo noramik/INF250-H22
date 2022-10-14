@@ -9,11 +9,11 @@ def hist_equalisation(image):
     :return: image_he: histogram equalised image
     """
     # Histogram equalisation
-    if len(np.shape(image)) == 3:
+    shape = np.shape(image)
+    if len(shape) == 3:
         image = image.mean(axis=2)
 
     histogram = np.zeros(256)
-    shape = np.shape(image)
     for i in range(shape[0]):
         for j in range(shape[1]):
             pixval = int(image[i, j])
