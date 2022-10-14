@@ -9,6 +9,8 @@ def hist_equalisation(image):
     :return: image_he: histogram equalised image
     """
     # Histogram equalisation
+    if len(np.shape(image)) == 3:
+        image = image.mean(axis=2)
 
     histogram = np.zeros(256)
     shape = np.shape(image)
