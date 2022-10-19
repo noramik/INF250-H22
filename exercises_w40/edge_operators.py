@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from skimage import io
-from skimage.filters import sobel, prewitt
+from skimage.filters import sobel, prewitt, laplace
 from skimage.feature import canny
 
 def edge_operator(image, operator):
@@ -26,20 +26,29 @@ def edge_operator(image, operator):
     """
 
     image = image.mean(axis=2)
-    filter_dict = {1: sobel, 2: prewitt, 3: canny}
-    filtered = filter_dict[operator](image)
+    if operator == 1:
+        filtered = sobel(image)
+    elif operator == 2:
+        filtered = prewitt(image)
+    elif operator == 3:
+        filtered = canny(image)
+    elif operator == 4:
+        filtered = laplace(image)
+    else:
+        raise ValueError('The value of the operator must be between 1 and 4.')
     
     return filtered
 
-
+def sharpen():
+    pass
 
 if __name__ == '__main__':
     filepath = '../images/AthenIR.png'
     ir_im = io.imread(filepath)
-    filtered = edge_operator(ir_im, 3)
+    filtered = edge_operator(ir_im, 4)
     fig, axes = plt.subplots(ncols=2)
     ax = axes.ravel()
 
-    ax[0].imshow(ir_im, cmap=plt.cm.gray)
-    ax[1].imshow(filtered, cmap=plt.cm.gray)
+    ax[0].imshow(ir_im, cmap='hot')
+    ax[1].imshow(filtered, cmap='hot')
     plt.show()
