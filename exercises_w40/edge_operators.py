@@ -39,8 +39,16 @@ def edge_operator(image, operator):
     
     return filtered
 
-def sharpen():
-    pass
+
+def sharpen(image, sharpmask):
+    """Performs an image sharpening using Laplace filter or unsharpen mask (USM)
+    1 = Laplace
+    2 = USM
+
+    Returns: sharpened image
+    """
+    return sharpened
+
 
 if __name__ == '__main__':
     filepath = '../images/AthenIR.png'
