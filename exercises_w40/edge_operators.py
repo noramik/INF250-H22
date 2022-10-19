@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from skimage import io
-from skimage.filters import sobel, prewitt, laplace
+from skimage.filters import sobel, prewitt, laplace, median
 from skimage.feature import canny
 
 def edge_operator(image, operator):
@@ -50,11 +50,13 @@ def sharpen(image, sharpmask):
     if len(image.shape) == 3:
         image = image.mean(axis=2)
     if sharpmask == 1:
-        amount = 0.5
+        amount = 2
         filtered = edge_operator(image, 4)
         sharpened = image - amount*filtered
     elif sharpmask == 2:
-        pass
+        amount = 2
+        med_filtr = median(image)
+        sharpened = image + amount*(image-med_filtr)
     else:
         raise ValueError('Only valid values for imagemask is 1 or 2.')
     return sharpened
@@ -66,7 +68,7 @@ if __name__ == '__main__':
     filepath = '../images/AthenIR.png'
     ir_im = io.imread(filepath)
     filtered = edge_operator(ir_im, 4)
-    sharpened = sharpen(ir_im, 1)
+    sharpened = sharpen(ir_im, 2)
     fig, axes = plt.subplots(ncols=2)
     ax = axes.ravel()
 
