@@ -24,8 +24,8 @@ def edge_operator(image, operator):
     filtered : np.ndarray(np.uint)
     result image from the edge operator
     """
-
-    image = image.mean(axis=2)
+    if len(image.shape) == 3:
+        image = image.mean(axis=2)
     if operator == 1:
         filtered = sobel(image)
     elif operator == 2:
@@ -47,16 +47,29 @@ def sharpen(image, sharpmask):
 
     Returns: sharpened image
     """
+    if len(image.shape) == 3:
+        image = image.mean(axis=2)
+    if sharpmask == 1:
+        amount = 0.5
+        filtered = edge_operator(image, 4)
+        sharpened = image - amount*filtered
+    elif sharpmask == 2:
+        pass
+    else:
+        raise ValueError('Only valid values for imagemask is 1 or 2.')
     return sharpened
+
+
 
 
 if __name__ == '__main__':
     filepath = '../images/AthenIR.png'
     ir_im = io.imread(filepath)
     filtered = edge_operator(ir_im, 4)
+    sharpened = sharpen(ir_im, 1)
     fig, axes = plt.subplots(ncols=2)
     ax = axes.ravel()
 
     ax[0].imshow(ir_im, cmap='hot')
-    ax[1].imshow(filtered, cmap='hot')
+    ax[1].imshow(sharpened, cmap='hot')
     plt.show()
